@@ -5,10 +5,16 @@ $loadScss = true;
 <?php include('header.php'); ?>
         <main id="main">
             <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2 class="no-margin"><?= $poll['name']; ?></h2>
+                </div>
+            </div>
+            <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><?= $poll['name']; ?></h3>
+                    <h3 class="panel-title">Wyniki głosowania</h3>
                 </div>
                 <div class="panel-body">
+                    <h4>Diagram słupkowy</h4>
                     <dl>
                     <?php
                     foreach($pdo->query($get_answers_sql) as $result) {
@@ -20,10 +26,13 @@ $loadScss = true;
                         $sql = "SELECT * FROM `answers` WHERE `id`='".$result['id']."'";
                         $result = $pdo->query($sql);
                         $answer = $result->fetch();
-                        echo $answer['name'].': '.$part.'%<br>';
+
+                        echo '<dd class="percentage percentage-'.$part.'">
+                                <span class="text">'.$answer['name'].'</span></dd>';
                     }
                     ?>
                     </dl>
+                    <h4>Diagram kołowy</h4>
                 </div>
             </div>
         </main>
