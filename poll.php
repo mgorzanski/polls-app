@@ -11,13 +11,16 @@ $loadScss = true;
                 <div class="panel-body">
                     <dl>
                     <?php
-                    foreach($answers as $answer) {
-                        $sql = "SELECT * FROM `polls_answers` WHERE `poll_id`='".$_GET['id']."' AND `answer_id`='".$answer."'";
+                    foreach($pdo->query($get_answers_sql) as $result) {
+                        $sql = "SELECT * FROM `polls_answers` WHERE `poll_id`='".$_GET['id']."' AND `answer_id`='".$result['id']."'";
                         $s = $pdo->prepare($sql);
                         $s->execute();
                         $poll_results = $s->rowCount();
-                        //$part = $answers_c/$poll_results * 100;
-                        echo $poll_results.'<br>';
+                        $part = $poll_results/$answers_c * 100;
+                        $sql = "SELECT * FROM `answers` WHERE `id`='".$result['id']."'";
+                        $result = $pdo->query($sql);
+                        $answer = $result->fetch();
+                        echo $answer['name'].': '.$part.'%<br>';
                     }
                     ?>
                     </dl>
