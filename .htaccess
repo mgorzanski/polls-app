@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule ^new-poll$ new-poll.php
+RewriteRule ^poll/([0-9]+)$ poll.php?id=$1
